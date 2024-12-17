@@ -127,27 +127,10 @@ public class Main {
                         aisuluuToAidana2
                 }
         );
-//
-//        aidana.getProfile().setChats(new Chat[]{chat2});
-//        Chat[] oldChats = aisuluu.getProfile().getChats();
-//        Chat[] newChats = Arrays.copyOf(oldChats, oldChats.length + 1 );
-//        newChats[newChats.length - 1] = chat2;
-//        aisuluu.getProfile().setChats(newChats);
-
 
 
 
         UserInterface userInterface = new UserInterfaceImpl(new User[]{nurlan, aisuluu, tilek, aidana});
-
-
-
-//        Chat[] aisuluuChats = ProfileInterfaceImpl.addChat(aisuluu.getProfile(), chat1 );
-//        Chat[] aidanaChats = ProfileInterfaceImpl.addChat(aidana.getProfile(), chat2);
-
-        Chat[] aisuluuChats = addChat(aisuluu.getProfile(), chat2);
-        Chat[] aidanaChats = addChat(aidana.getProfile(), chat2);
-//        aisuluu.getProfile().setChats(aisuluuChats);
-//        aidana.getProfile().setChats(aidanaChats);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -354,10 +337,5 @@ public class Main {
                 4.Изменить смс
                 5. Меню
                 """);
-    }
-
-    public static Chat[] addChat (Profile profile, Chat chat){
-        Chat[] result = profileInterface.addChat(profile, chat);
-        return result;
     }
 }
