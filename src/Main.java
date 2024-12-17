@@ -86,28 +86,61 @@ public class Main {
                                     System.out.println(i + " " + user.getProfile().getFollowing()[i].getUsername());
                                 }
                                 break;
-                                case 4:
-                                    for (int i = 0; i < user.getProfile().getPosts().length; i++) {
-                                        System.out.println(i);
-                                        System.out.println("Название - " + user.getProfile().getPosts()[i].getTitle());
-                                        System.out.println("Описание - "+user.getProfile().getPosts()[i].getDescription());
-                                        System.out.println("Комментарии - "+Arrays.toString(user.getProfile().getPosts()[i].getComments()));
-                                        System.out.println("Лайки - "+user.getProfile().getPosts()[i].getLikes());
-                                        System.out.println("Дизлайки - "+user.getProfile().getPosts()[i].getDislikes());
+                            case 4:
+                                for (int i = 0; i < user.getProfile().getPosts().length; i++) {
+                                    System.out.println(i);
+                                    System.out.println("Название - " + user.getProfile().getPosts()[i].getTitle());
+                                    System.out.println("Описание - " + user.getProfile().getPosts()[i].getDescription());
+                                    System.out.println("Комментарии - " + Arrays.toString(user.getProfile().getPosts()[i].getComments()));
+                                    System.out.println("Лайки - " + user.getProfile().getPosts()[i].getLikes());
+                                    System.out.println("Дизлайки - " + user.getProfile().getPosts()[i].getDislikes());
 
-                                    }
-                                    break;
-                                    case 5:
-                                        for (int i = 0; i < user.getProfile().getChats().length; i++) {
-                                            System.out.println(i);
-                                            System.out.println(user.getProfile().getChats()[i].getUser1().getUsername());
+                                }
+                                break;
+                            case 5:
+                                for (int i = 0; i < user.getProfile().getChats().length; i++) {
+                                    System.out.println(i);
+                                    System.out.println(user.getProfile().getChats()[i].getUser1().getUsername());
+                                }
+                                System.out.println("Выбери какой чат хочешь открыть:");
+                                choice = scanner.nextInt();
+                                System.out.println(user.getProfile().getChats()[choice]);
+                                break;
+                            case 6:
+                                Chat[] chats = user.getProfile().getChats();
+                                String[] followersAndFollowingNames = new String[user.getProfile().getFollowers().length + user.getProfile().getFollowing().length];
+                                int count = 0;
+                                for (int i = 0; i < user.getProfile().getFollowers().length; i++) {
+                                    for (int a = 0; a < chats.length; a++) {
+                                        if (!chats[a].getUser1().getUsername().equals(user.getProfile().getFollowers()[i].getUsername())) {
+                                            System.out.println(i + ". " + user.getProfile().getFollowers()[i].getUsername());
+                                            followersAndFollowingNames[count] = user.getProfile().getFollowers()[i].getUsername();
+                                            count++;
                                         }
-                                        System.out.println("Выбери какой чат хочешь открыть:");
-                                        choice = scanner.nextInt();
-                                        System.out.println(user.getProfile().getChats()[choice]);
-                                        break;
+                                    }
+                                }
+                                for (int j = 0; j < user.getProfile().getFollowing().length; j++) {
+                                    for (int a = 0; a < chats.length; a++) {
+                                        if (!chats[a].getUser1().getUsername().equals(user.getProfile().getFollowing()[j].getUsername())) {
+                                            System.out.println(j + ". " + user.getProfile().getFollowing()[j].getUsername());
+                                            followersAndFollowingNames[count] = user.getProfile().getFollowing()[j].getUsername();
+                                            count++;
+                                        }
+                                    }
+                                }
+                                System.out.println("Выбери с кем хочешь начать чат: ");
+                                System.out.println(Arrays.toString(followersAndFollowingNames));
+                                choice = scanner.nextInt();
+                                User findUser = userInterface.getUserByName(followersAndFollowingNames[choice]);
+                                Chat newChat = new Chat(findUser, user, new Message[0]);
 
+                                Chat[] newChat1 = Arrays.copyOf(findUser.getProfile().getChats(), findUser.getProfile().getChats().length + 1);
+                                newChat1[newChat1.length - 1] = newChat;
+                                findUser.getProfile().setChats(newChat1);
 
+                                Chat[] newChat2 = Arrays.copyOf(user.getProfile().getChats(), user.getProfile().getChats().length + 1);
+                                newChat2[newChat2.length - 1] = newChat;
+                                user.getProfile().setChats(newChat2);
                         }
 
                     }
@@ -139,7 +172,7 @@ public class Main {
     public static void getProfileMenu() {
         System.out.println("""
                 1. Профиль
-                2. Подписчики 
+                2. Подписчики
                 3. Подписки
                 4. Посты
                 5. Директ
