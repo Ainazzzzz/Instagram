@@ -7,6 +7,7 @@ import dao.impl.PostInterfaceImpl;
 import dao.impl.ProfileInterfaceImpl;
 import dao.impl.UserInterfaceImpl;
 import model.*;
+import org.w3c.dom.ls.LSOutput;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -126,14 +127,27 @@ public class Main {
                         aisuluuToAidana2
                 }
         );
+//
+//        aidana.getProfile().setChats(new Chat[]{chat2});
+//        Chat[] oldChats = aisuluu.getProfile().getChats();
+//        Chat[] newChats = Arrays.copyOf(oldChats, oldChats.length + 1 );
+//        newChats[newChats.length - 1] = chat2;
+//        aisuluu.getProfile().setChats(newChats);
 
 
 
 
         UserInterface userInterface = new UserInterfaceImpl(new User[]{nurlan, aisuluu, tilek, aidana});
 
+
+
+//        Chat[] aisuluuChats = ProfileInterfaceImpl.addChat(aisuluu.getProfile(), chat1 );
+//        Chat[] aidanaChats = ProfileInterfaceImpl.addChat(aidana.getProfile(), chat2);
+
         Chat[] aisuluuChats = addChat(aisuluu.getProfile(), chat2);
         Chat[] aidanaChats = addChat(aidana.getProfile(), chat2);
+//        aisuluu.getProfile().setChats(aisuluuChats);
+//        aidana.getProfile().setChats(aidanaChats);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -151,8 +165,7 @@ public class Main {
                         System.out.println("Такого человека в системе нет!");
                         break;
                     }
-                    boolean innerloop = true;
-                    while (innerloop) {
+                    while (true) {
                         getProfileMenu();
                         choice = scanner.nextInt();
                         switch (choice) {
@@ -247,19 +260,53 @@ public class Main {
                                                 case 5:
                                                     isTrue = false;
                                                     break;
-
                                             }
                                         }
 
                                         break;
+                            
+                             case 6:
+                                Chat[] chats = user.getProfile().getChats();
+                                String[] followersAndFollowingNames = new String[user.getProfile().getFollowers().length + user.getProfile().getFollowing().length];
+                                int count = 0;
+                                for (int i = 0; i < user.getProfile().getFollowers().length; i++) {
+                                    for (int a = 0; a < chats.length; a++) {
+                                        if (!chats[a].getUser1().getUsername().equals(user.getProfile().getFollowers()[i].getUsername())) {
+                                            System.out.println(i + ". " + user.getProfile().getFollowers()[i].getUsername());
+                                            followersAndFollowingNames[count] = user.getProfile().getFollowers()[i].getUsername();
+                                            count++;
+                                        }
+                                    }
+                                }
+                                for (int j = 0; j < user.getProfile().getFollowing().length; j++) {
+                                    for (int a = 0; a < chats.length; a++) {
+                                        if (!chats[a].getUser1().getUsername().equals(user.getProfile().getFollowing()[j].getUsername())) {
+                                            System.out.println(j + ". " + user.getProfile().getFollowing()[j].getUsername());
+                                            followersAndFollowingNames[count] = user.getProfile().getFollowing()[j].getUsername();
+                                            count++;
+                                        }
+                                    }
+                                }
+                                System.out.println("Выбери с кем хочешь начать чат: ");
+                                System.out.println(Arrays.toString(followersAndFollowingNames));
+                                choice = scanner.nextInt();
+                                User findUser = userInterface.getUserByName(followersAndFollowingNames[choice]);
+                                Chat newChat = new Chat(findUser, user, new Message[0]);
 
-                            case 8:
-                                innerloop = false;
-                                break;
+                                Chat[] newChat1 = Arrays.copyOf(findUser.getProfile().getChats(), findUser.getProfile().getChats().length + 1);
+                                newChat1[newChat1.length - 1] = newChat;
+                                findUser.getProfile().setChats(newChat1);
+
+                                Chat[] newChat2 = Arrays.copyOf(user.getProfile().getChats(), user.getProfile().getChats().length + 1);
+                                newChat2[newChat2.length - 1] = newChat;
+                                user.getProfile().setChats(newChat2);
+                                 break;
+
+
+
                         }
 
                     }
-                    break;
                 case 2:
                     System.out.println("Для регистрации введите свою почту:");
                     String email = scanner.next();
@@ -270,6 +317,8 @@ public class Main {
 
                     User user1 = userInterface.signUp(new User(username1, email, password1, null));
                     break;
+
+
             }
 
         }
@@ -308,8 +357,7 @@ public class Main {
     }
 
     public static Chat[] addChat (Profile profile, Chat chat){
-        return profileInterface.addChat(profile, chat);
+        Chat[] result = profileInterface.addChat(profile, chat);
+        return result;
     }
-
-
 }
