@@ -1,7 +1,10 @@
 package dao.impl;
 
 import dao.UserInterface;
+import model.Chat;
 import model.User;
+
+import java.lang.reflect.Array;
 
 
 public class UserInterfaceImpl implements UserInterface {
@@ -21,10 +24,14 @@ public class UserInterfaceImpl implements UserInterface {
            return null;
     }
 
+
+
     @Override
     public User signUp(User user) {
         return null;
     }
+
+
 
     public User[] getUsers() {
         return users;
