@@ -55,7 +55,8 @@ public class Main {
         ChatInterface chatInterface = new ChatInterfaceImpl();
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        boolean isRunning = true;
+        while (isRunning) {
             getSignInMenu();
             int choice = scanner.nextInt();
             switch (choice) {
@@ -108,9 +109,13 @@ public class Main {
                                         break;
 
 
+                            case 8:
+                                System.out.println("Вы успешно вышли из системы!");
+                                break;
                         }
-
+                        break;
                     }
+                    break;
                 case 2:
                     System.out.println("Для регистрации введите свою почту:");
                     String email = scanner.next();
@@ -121,9 +126,11 @@ public class Main {
 
                     User user1 = userInterface.signUp(new User(username1, email, password1, null));
                     break;
-
-
+//                case 8:
+//                    System.out.println("Вы успешно вышли из системы!");
+//                    break;
             }
+
 
         }
     }
