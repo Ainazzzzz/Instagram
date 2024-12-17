@@ -7,7 +7,6 @@ import dao.impl.PostInterfaceImpl;
 import dao.impl.ProfileInterfaceImpl;
 import dao.impl.UserInterfaceImpl;
 import model.*;
-import org.w3c.dom.ls.LSOutput;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -127,27 +126,14 @@ public class Main {
                         aisuluuToAidana2
                 }
         );
-//
-//        aidana.getProfile().setChats(new Chat[]{chat2});
-//        Chat[] oldChats = aisuluu.getProfile().getChats();
-//        Chat[] newChats = Arrays.copyOf(oldChats, oldChats.length + 1 );
-//        newChats[newChats.length - 1] = chat2;
-//        aisuluu.getProfile().setChats(newChats);
 
 
 
 
         UserInterface userInterface = new UserInterfaceImpl(new User[]{nurlan, aisuluu, tilek, aidana});
 
-
-
-//        Chat[] aisuluuChats = ProfileInterfaceImpl.addChat(aisuluu.getProfile(), chat1 );
-//        Chat[] aidanaChats = ProfileInterfaceImpl.addChat(aidana.getProfile(), chat2);
-
         Chat[] aisuluuChats = addChat(aisuluu.getProfile(), chat2);
         Chat[] aidanaChats = addChat(aidana.getProfile(), chat2);
-//        aisuluu.getProfile().setChats(aisuluuChats);
-//        aidana.getProfile().setChats(aidanaChats);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -165,7 +151,8 @@ public class Main {
                         System.out.println("Такого человека в системе нет!");
                         break;
                     }
-                    while (true) {
+                    boolean innerloop = true;
+                    while (innerloop) {
                         getProfileMenu();
                         choice = scanner.nextInt();
                         switch (choice) {
@@ -260,15 +247,19 @@ public class Main {
                                                 case 5:
                                                     isTrue = false;
                                                     break;
+
                                             }
                                         }
 
                                         break;
 
-
+                            case 8:
+                                innerloop = false;
+                                break;
                         }
 
                     }
+                    break;
                 case 2:
                     System.out.println("Для регистрации введите свою почту:");
                     String email = scanner.next();
@@ -279,8 +270,6 @@ public class Main {
 
                     User user1 = userInterface.signUp(new User(username1, email, password1, null));
                     break;
-
-
             }
 
         }
@@ -319,8 +308,7 @@ public class Main {
     }
 
     public static Chat[] addChat (Profile profile, Chat chat){
-        Chat[] result = profileInterface.addChat(profile, chat);
-        return result;
+        return profileInterface.addChat(profile, chat);
     }
 
 
