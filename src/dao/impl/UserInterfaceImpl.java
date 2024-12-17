@@ -3,34 +3,31 @@ package dao.impl;
 import dao.UserInterface;
 import model.User;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserInterfaceImpl implements UserInterface {
-    private User[] users;
+    private List<User> users = new ArrayList<>();
 
-    public UserInterfaceImpl(User[] users) {
-        this.users = users;
+    public UserInterfaceImpl(User[] initialUsers) {
+        for (User user : initialUsers) {
+            users.add(user);
+        }
     }
 
     @Override
     public User signIn(String username, String password) {
-       for (User user : users) {
-           if(user.getUsername().equalsIgnoreCase(username) && user.getPassword().equalsIgnoreCase(password)) {
-               return user;
-           }
-       }
-           return null;
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null; // если не найден
     }
 
     @Override
     public User signUp(User user) {
-        return null;
-    }
-
-    public User[] getUsers() {
-        return users;
-    }
-
-    public void setUsers(User[] users) {
-        this.users = users;
+        users.add(user); // добавляем нового пользователя
+        return user;
     }
 }

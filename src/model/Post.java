@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Arrays;
-
 public class Post {
     private String title;
     private String description;
@@ -55,16 +53,5 @@ public class Post {
 
     public void setComments(String[] comments) {
         this.comments = comments;
-    }
-
-    @Override
-    public String toString() {
-        return "model.Post{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", likes=" + likes +
-                ", dislikes=" + dislikes +
-                ", comments=" + Arrays.toString(comments) +
-                '}';
     }
 }

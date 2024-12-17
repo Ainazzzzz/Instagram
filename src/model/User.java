@@ -44,13 +44,4 @@ public class User {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
-
-    @Override
-    public String toString() {
-        return "model.User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }
