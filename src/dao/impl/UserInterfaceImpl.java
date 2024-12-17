@@ -15,6 +15,16 @@ public class UserInterfaceImpl implements UserInterface {
     }
 
     @Override
+    public User getUserByName(String name) {
+        for (int i = 0; i < users.length; i++) {
+            if (name.equalsIgnoreCase(users[i].getUsername())){
+                return users[i];
+            }
+        }
+        return null;
+    }
+
+    @Override
     public User signIn(String username, String password) {
        for (User user : users) {
            if(user.getUsername().equalsIgnoreCase(username) && user.getPassword().equalsIgnoreCase(password)) {
