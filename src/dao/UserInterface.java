@@ -1,5 +1,6 @@
 package dao;
 
+import model.Chat;
 import model.User;
 
 public interface UserInterface {
