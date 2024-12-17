@@ -236,7 +236,7 @@ public class Main {
                                                     System.out.println(chat);
                                                     break;
                                                 case 3:
-                                                    System.out.println("Введите индекс чата");
+                                                    System.out.println("Введите индекс чата ");
                                                     int indexOfDeleted = scanner.nextInt();
 
                                                     Chat[] deletedChat = profileInterface.deleteChat(
