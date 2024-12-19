@@ -69,13 +69,15 @@ public class Main {
         Message message2 = new Message("Жакшы, рахмат!", LocalDateTime.now(), "aisuluu");
 
         Chat chat1 = new Chat(nurlan, aisuluu, new Message[]{message1, message2});
+        Chat newChat1 = new Chat(aisuluu, nurlan, new Message[]{message1, message2});
 
-        nurlan.getProfile().setChats(new Chat[]{chat1});
+        nurlan.getProfile().setChats(new Chat[]{newChat1});
         aisuluu.getProfile().setChats(new Chat[]{chat1});
 
         aidana.getProfile().setChats(new Chat[]{});
         tilek.getProfile().setChats(new Chat[]{});
 
+        aidana.getProfile().setChats(new Chat[]{});
 
         Message aidanaToAisuluu1 = new Message("Привет, как дела",
                 LocalDateTime.of(
@@ -127,27 +129,31 @@ public class Main {
                         aisuluuToAidana2
                 }
         );
-//
-//        aidana.getProfile().setChats(new Chat[]{chat2});
-//        Chat[] oldChats = aisuluu.getProfile().getChats();
-//        Chat[] newChats = Arrays.copyOf(oldChats, oldChats.length + 1 );
-//        newChats[newChats.length - 1] = chat2;
-//        aisuluu.getProfile().setChats(newChats);
 
 
+
+        Chat chat3 = new Chat(
+                aisuluu,
+                aidana,
+                new Message[]{
+                        aidanaToAisuluu1,
+                        aisuluuToAidana1,
+                        aidanaToAisuluu2,
+                        aisuluuToAidana2
+                }
+        );
 
 
         UserInterface userInterface = new UserInterfaceImpl(new User[]{nurlan, aisuluu, tilek, aidana});
 
 
 
-//        Chat[] aisuluuChats = ProfileInterfaceImpl.addChat(aisuluu.getProfile(), chat1 );
-//        Chat[] aidanaChats = ProfileInterfaceImpl.addChat(aidana.getProfile(), chat2);
 
         Chat[] aisuluuChats = addChat(aisuluu.getProfile(), chat2);
-        Chat[] aidanaChats = addChat(aidana.getProfile(), chat2);
-//        aisuluu.getProfile().setChats(aisuluuChats);
-//        aidana.getProfile().setChats(aidanaChats);
+        Chat[] aidanaChats = addChat(aidana.getProfile(), chat3);
+
+
+
 
         Scanner scanner = new Scanner(System.in);
 
@@ -201,8 +207,8 @@ public class Main {
                                             System.out.println(user.getProfile().getChats()[i].getUser1().getUsername());
                                         }
                                         System.out.println("Выбери какой чат хочешь открыть:");
-                                        choice = scanner.nextInt();
-                                        Chat chat = user.getProfile().getChats()[choice];
+                                        int indexOfChat = scanner.nextInt();
+                                        Chat chat = user.getProfile().getChats()[indexOfChat];
                                         System.out.println(chat);
                                         while (isTrue) {
                                             getChatsMenu();
@@ -217,45 +223,79 @@ public class Main {
 
 
                                                     Message[] messages = profileInterface.sendMessage(
-                                                            user.getProfile(),
+                                                            user,
                                                             chat,
                                                             text);
 
-                                                    chat.setMessages(messages);
+                                                    for (int i = 0; i < messages.length; i++) {
+                                                        System.out.println(messages[i].getTime());
+                                                        System.out.println(messages[i].getText());
+                                                        System.out.println(messages[i].getSender());
+                                                    }
 
-                                                    System.out.println(Arrays.toString(user.getProfile().getChats()[choice].getMessages()));
+
 
                                                     break;
                                                 case 2:
                                                     System.out.println("Какой смс хотите удалить по индексу");
-                                                    System.out.println(Arrays.toString(chat.getMessages()));
+
+
+
+                                                    for (int i = 0; i < chat.getMessages().length; i++) {
+                                                        System.out.println(i + " "  + chat.getMessages()[i].getText());
+                                                    }
+
                                                     int index = scanner.nextInt();
 
                                                     Message[] deletedMessages = profileInterface.deleteMessage(chat, index);
 
-                                                    System.out.println(chat);
+                                                    for (int i = 0; i < deletedMessages.length; i++) {
+                                                        System.out.println(deletedMessages[i].getTime());
+                                                        System.out.println(deletedMessages[i].getText());
+                                                        System.out.println(deletedMessages[i].getSender());
+                                                    }
+
+
                                                     break;
                                                 case 3:
-                                                    System.out.println("Введите индекс чата ");
-                                                    int indexOfDeleted = scanner.nextInt();
 
                                                     Chat[] deletedChat = profileInterface.deleteChat(
                                                             user.getProfile(),
                                                             user.getProfile().getChats(),
-                                                            indexOfDeleted);
+                                                            indexOfChat);
 
-//                                                    System.out.println(user.getProfile().getChats());
-                                                    System.out.println(Arrays.toString(deletedChat));
+
+
+                                                    for (int i = 0; i < user.getProfile().getChats().length; i++) {
+                                                        System.out.println(Arrays.toString(user.getProfile().getChats()));
+                                                    }
+
+
                                                     break;
                                                 case 4:
-                                                    System.out.println(Arrays.toString(chat.getMessages()));
+
+
+                                                    for (int i = 0; i < chat.getMessages().length; i++) {
+                                                        System.out.println(i + " " + chat.getMessages()[i].getText());
+                                                    }
+
+
                                                     System.out.println("Введите индекс");
                                                     int indexOf = scanner.nextInt();
                                                     System.out.println("Введите текст");
                                                     scanner.nextLine();
                                                     String newText = scanner.nextLine();
                                                     Message[] changesMessages = profileInterface.changeTheText(chat, indexOf, newText);
-                                                    System.out.println(Arrays.toString(chat.getMessages()));
+
+
+
+                                                    for (int i = 0; i < changesMessages.length; i++) {
+                                                        System.out.println(changesMessages[i].getTime());
+                                                        System.out.println(changesMessages[i].getText());
+                                                        System.out.println(changesMessages[i].getSender());
+                                                    }
+
+
                                                     break;
                                                 case 5:
                                                     isTrue = false;

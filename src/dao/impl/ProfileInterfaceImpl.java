@@ -23,7 +23,7 @@ public class ProfileInterfaceImpl implements ProfileInterface {
     }
 
     @Override
-    public Message[] sendMessage(Profile profile, Chat chat, String message) {
+    public Message[] sendMessage(User user, Chat chat, String message) {
         Message[] allMessages = chat.getMessages();
 
 
@@ -32,7 +32,9 @@ public class ProfileInterfaceImpl implements ProfileInterface {
 
         newMessages[newMessages.length - 1 ] = new Message(message,
                 LocalDateTime.now(),
-                profile.getAvatar());
+                user.getUsername());
+
+        chat.setMessages(newMessages);
 
         return newMessages;
     }
@@ -63,7 +65,6 @@ public class ProfileInterfaceImpl implements ProfileInterface {
 
         Chat[] newChats = new Chat[oldChats.length -1 ];
 
-        System.out.println(Arrays.toString(oldChats));
 
         for (int i = 0; i < oldChats.length; i++) {
             if (i  != indexOf){
